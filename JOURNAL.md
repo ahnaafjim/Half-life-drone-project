@@ -10,16 +10,28 @@
 
 | Week | Tier | Hours logged | Entries |
 | --- | --- | --- | --- |
-| Week 1 | Tier 2 | 1.93h | 1 |
+| Week 1 | Tier 2 | 2.93h | 1 |
 
 ## Contents
 
-1. [2026-10-11 – Work session](#2026-10-11-work-session)
+1. [2026-10-11 – Before tracking the time I took making the first connections of my flight controller I took about an hour for research, I've always been into FPV drones and such but I've never really built anything m](#2026-10-11-before-tracking-the-time-i-took-making-the-first-)
 
 ## Design
 
-### 2026-10-11 – Work session
+### 2026-10-11 – Before tracking the time I took making the first connections of my flight controller I took about an hour for research, I've always been into FPV drones and such but I've never really built anything m
 
-**1.93h**
+**2.93h**
+
+Before tracking the time I took making the first connections of my flight controller I took about an hour for research, I've always been into FPV drones and such but I've never really built anything myself because I thought it was very costly hobby, looks like it doesnt have to be that costly, I researched by firstly searching up all the components I need for a drone, I used Claude at first and then later on after having an idea of where to go I started skimming through datasheets of all the parts I needed and then I used Gemini all the way through for any quick insights on parts and connections, it's my first ever time trying to make a PCB so I got quite a lot of stuff wrong most probably, I'll probably fix whatever mess I created tommorow but other than that I found a guy making a flight controller who's videos I watched to get a bit more idea of what iam dealing with here, here's the link to the YouTube video(technically a 6 video series):
+
+https://www.youtube.com/watch?v=Rv1MVkZuGbg&list=PLoPtpxJIxgnYnPrOeGHs3rdhhPgNGIYN5
+
+7 year old video but I think I still did manage to learn a little something about what to avoid and what I should do.
+
+![image](https://halflife.hackclub-assets.com/hackclub-half-life/sessions/TfgGlSVHCZQMzFmVQLHAMKiKD2tjjzgX/fb9bb11cd406018c666a58645907b0e87e4227e150497982ec65684d5d2c559f.png)
+
+So far I've only made a USB-C to UART circuit that will let me communicate with the ESP32-WROOM-32E that I plan on using instead of buying a module, that way I'd have some experience working with bare SMD microcontroller chips.
+
+![image](https://halflife.hackclub-assets.com/hackclub-half-life/sessions/TfgGlSVHCZQMzFmVQLHAMKiKD2tjjzgX/ab9d4423beb2ee785c2001bcb9654cd40416bbd732b65e9288242046948cdc30.png)
 
 [Timelapse](https://lookout.hackclub.com/api/media/71a7383a-8fd6-4d2a-b7ac-590f7df4a19a/video.mp4)
