@@ -12,12 +12,6 @@
 
 | Part | What it's for | Qty | Unit | Total | Vendor |
 | --- | --- | --- | --- | --- | --- |
-| B0520W | — | 2 | $0.03 | $0.06 | JUXING(钜兴) |
-| ESP32-WROOM-32E-H4 | — | 2 | $4.39 | $8.78 | ESPRESSIF(乐鑫) |
-| CH340E | — | 1 | $0.69 | $0.69 | WCH(南京沁恒) |
-| YAGEO RC0603FR-074K7L | — | 8 | $0.00 | $0.00 | YAGEO |
-| FOJAN FRC0603F5101TS | — | 4 | $0.00 | $0.00 | FOJAN |
-| YAGEO RC0603FR-0710KL | — | 2 | $0.00 | $0.00 | YAGEO |
 | 2N7002 | — | 2 | $0.02 | $0.04 | Nexperia |
 | K2-3.6×6.1_SMD | — | 4 | $0.08 | $0.32 | K2-1107ST-A4SW-06 |
 | SS14_C55127344 | — | 4 | $0.01 | $0.04 | DongChen(东晨) |
@@ -26,8 +20,8 @@
 | Samsung Electro-Mechanics CL10A226MQ8NRNC | — | 2 | $0.03 | $0.06 | Samsung Electro-Mechanics |
 | Samsung Electro-Mechanics CL10B105KB8NQNC | — | 4 | $0.02 | $0.08 | Samsung Electro-Mechanics |
 | LAILAN LAIL-PZ2.54-1P-L | — | 54 | $0.01 | $0.54 | LAILAN |
-| **Parts subtotal** | — | — | — | **$10.79** | — |
+| **Parts subtotal** | — | — | — | **$1.26** | — |
 | **Tax & shipping** | — | — | — | **$10.00** | — |
-| **Total** | — | — | — | **$20.79** | — |
+| **Total** | — | — | — | **$11.26** | — |
 
-$44.21 left of the tier's funding.
+$53.74 left of the tier's funding.
