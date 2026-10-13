@@ -12,16 +12,11 @@
 
 | Part | What it's for | Qty | Unit | Total | Vendor |
 | --- | --- | --- | --- | --- | --- |
-| 2N7002 | — | 2 | $0.02 | $0.04 | Nexperia |
-| K2-3.6×6.1_SMD | — | 4 | $0.08 | $0.32 | K2-1107ST-A4SW-06 |
-| SS14_C55127344 | — | 4 | $0.01 | $0.04 | DongChen(东晨) |
-| YAGEO CC0603KRX7R9BB104 | — | 12 | $0.01 | $0.12 | YAGEO |
-| Samsung Electro-Mechanics CL10A106KP8NNNC | — | 2 | $0.03 | $0.06 | Samsung Electro-Mechanics |
 | Samsung Electro-Mechanics CL10A226MQ8NRNC | — | 2 | $0.03 | $0.06 | Samsung Electro-Mechanics |
 | Samsung Electro-Mechanics CL10B105KB8NQNC | — | 4 | $0.02 | $0.08 | Samsung Electro-Mechanics |
 | LAILAN LAIL-PZ2.54-1P-L | — | 54 | $0.01 | $0.54 | LAILAN |
-| **Parts subtotal** | — | — | — | **$1.26** | — |
+| **Parts subtotal** | — | — | — | **$0.68** | — |
 | **Tax & shipping** | — | — | — | **$10.00** | — |
-| **Total** | — | — | — | **$11.26** | — |
+| **Total** | — | — | — | **$10.68** | — |
 
-$53.74 left of the tier's funding.
+$54.32 left of the tier's funding.
