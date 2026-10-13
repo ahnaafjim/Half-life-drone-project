@@ -105,21 +105,6 @@ This flight controller is compatible with custom firmware written in C++/ESP-IDF
 
 ---
 
-## 📂 Repository Layout
-
-```text
-├── schematics/SCH_New-Project_2026-10-13.json        # EasyEDA schematic exports and PDF schematics
-├── gerbers/Gerber_New-Project_PCB_New-Project_2026-10-13.zip           # Production-ready Gerber files
-├── bom/BOM_New-Project_2026-10-13.csv               # Bill of Materials (JLCPCB part numbers included)
-├── pcb design/ PCB_PCB_New-Project_2026-10-14.json # json of the designed pcb
-├── docs/                        # Board renders
-│   ├── images/pcb_layout.png
-│   ├── images/schematic.png 
-└── README.md
-```
-
----
-
 ## 📄 License
 
 Open-source hardware released under the [CERN Open Hardware Licence v2 - Permissive](https://ohwr.org/cernohl) (or MIT / your preferred license).
