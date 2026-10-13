@@ -12,10 +12,6 @@
 
 | Part | What it's for | Qty | Unit | Total | Vendor |
 | --- | --- | --- | --- | --- | --- |
-| 0603L075/12AR | — | 2 | $0.06 | $0.12 | LUTE(陆特) |
-| LSM6DS3TR-C | — | 2 | $1.53 | $3.06 | ST(意法半导体) |
-| BMP388(TOKMAS) | — | 2 | $1.58 | $3.16 | Tokmas(托克马斯) |
-| AMS1117-3.3 | — | 2 | $0.05 | $0.10 | GOODWORK(固得沃克) |
 | B0520W | — | 2 | $0.03 | $0.06 | JUXING(钜兴) |
 | ESP32-WROOM-32E-H4 | — | 2 | $4.39 | $8.78 | ESPRESSIF(乐鑫) |
 | CH340E | — | 1 | $0.69 | $0.69 | WCH(南京沁恒) |
@@ -30,8 +26,8 @@
 | Samsung Electro-Mechanics CL10A226MQ8NRNC | — | 2 | $0.03 | $0.06 | Samsung Electro-Mechanics |
 | Samsung Electro-Mechanics CL10B105KB8NQNC | — | 4 | $0.02 | $0.08 | Samsung Electro-Mechanics |
 | LAILAN LAIL-PZ2.54-1P-L | — | 54 | $0.01 | $0.54 | LAILAN |
-| **Parts subtotal** | — | — | — | **$17.23** | — |
+| **Parts subtotal** | — | — | — | **$10.79** | — |
 | **Tax & shipping** | — | — | — | **$10.00** | — |
-| **Total** | — | — | — | **$27.23** | — |
+| **Total** | — | — | — | **$20.79** | — |
 
-$37.77 left of the tier's funding.
+$44.21 left of the tier's funding.
