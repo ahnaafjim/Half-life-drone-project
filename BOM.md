@@ -32,7 +32,7 @@
 | Samsung Electro-Mechanics CL10B105KB8NQNC | — | 4 | $0.02 | $0.08 | Samsung Electro-Mechanics |
 | LAILAN LAIL-PZ2.54-1P-L | — | 54 | $0.01 | $0.54 | LAILAN |
 | **Parts subtotal** | — | — | — | **$17.87** | — |
-| **Tax & shipping** | — | — | — | **$30.00** | — |
-| **Total** | — | — | — | **$47.87** | — |
+| **Tax & shipping** | — | — | — | **$20.00** | — |
+| **Total** | — | — | — | **$37.87** | — |
 
-$17.13 left of the tier's funding.
+$27.13 left of the tier's funding.
