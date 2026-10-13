@@ -10,7 +10,6 @@ A custom, low-cost drone flight controller development board designed in **EasyE
 | :---: | :---: |
 | ![PCB Layout](docs/images/pcb_layout.png) | ![Schematic](docs/images/schematic.png) |
 
-*(Place schematic and layout snapshots in your repository under `docs/images/` or link to your preferred media folder)*
 
 ---
 
@@ -109,14 +108,13 @@ This flight controller is compatible with custom firmware written in C++/ESP-IDF
 ## 📂 Repository Layout
 
 ```text
-├── hardware/
-│   ├── schematics/        # EasyEDA schematic exports and PDF schematics
-│   ├── gerbers/           # Production-ready Gerber files
-│   ├── bom/               # Bill of Materials (JLCPCB part numbers included)
-│   └── cpl/               # Pick-and-place (Centroid) files
-├── docs/
-│   ├── images/            # Board renders, schematics, and pinout diagrams
-│   └── errata.md          # Known hardware bugs and revision logs
+├── schematics/SCH_New-Project_2026-10-13.json        # EasyEDA schematic exports and PDF schematics
+├── gerbers/Gerber_New-Project_PCB_New-Project_2026-10-13.zip           # Production-ready Gerber files
+├── bom/BOM_New-Project_2026-10-13.csv               # Bill of Materials (JLCPCB part numbers included)
+│
+├── docs/                        # Board renders
+│   ├── images/pcb_layout.png
+│   ├── images/schematic.png 
 └── README.md
 ```
 
