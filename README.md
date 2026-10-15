@@ -107,4 +107,4 @@ This flight controller is compatible with custom firmware written in C++/ESP-IDF
 
 ## 📄 License
 
-Open-source hardware released under the [CERN Open Hardware Licence v2 - Permissive](https://ohwr.org/cernohl) (or MIT / your preferred license).
+Open-source hardware released under the [CERN Open Hardware Licence v2 - Permissive](https://ohwr.org/cernohl)
