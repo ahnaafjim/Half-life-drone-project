@@ -1,6 +1,8 @@
 # ESP32 DIY Drone Flight Controller (FC) 🛸
 
-A custom, low-cost drone flight controller development board designed in **EasyEDA Standard (v6.5.51)** around the **ESP32-WROOM-32E** microcontroller. Optimized for hobby quadcopter/multirotor development and 2-layer fabrication via **JLCPCB**.
+A custom, low-cost drone flight controller development board designed in **EasyEDA Standard (v6.5.51)** around the **ESP32-WROOM-32E** module. Built as my first ever PCB, aimed at hobby quadcopter / multirotor development and 2-layer fabrication via **JLCPCB**.
+
+> **Status:** Rev 1 design complete and Gerbers/BOM/CPL exported. Hardware not yet assembled, so the firmware below is a **bring-up test**, not a flight stack. See [Known limitations](#%EF%B8%8F-known-limitations--rev-11-plans).
 
 ---
 
@@ -10,101 +12,111 @@ A custom, low-cost drone flight controller development board designed in **EasyE
 | :---: | :---: |
 | ![PCB Layout](docs/images/pcb_layout.png) | ![Schematic](docs/images/schematic.png) |
 
-
 ---
 
 ## ✨ Key Features & Specifications
 
-- **Microcontroller**: Espressif **ESP32-WROOM-32E-H4** (Dual-core 240 MHz, Wi-Fi & Bluetooth, onboard antenna).
-- **Inertial Measurement Unit (IMU)**: STMicroelectronics **LSM6DS3TR-C** 6-axis Gyroscope & Accelerometer.
-  - Interface: I2C (Address: `0x6A`, SA0 pulled to GND).
-  - Interrupt lines connected to `IO19` (INT1) and `IO23` (INT2).
-- **Barometer (Altitude Sensing)**: Bosch **BMP388** (Tokmas C54582187).
-  - Interface: Shared I2C (Address: `0x76`, SDO pulled to GND).
-- **USB-UART Interface**: WCH **CH340E** over a modern **USB-C** receptacle.
-  - Bidirectional logic level shifting via **2N7002 MOSFET** (Q1) & **B0520W Schottky** (U3) on RX.
-  - Standard 5.1kΩ CC pulldowns (R2, R3) for USB-C Power Delivery compatibility.
-- **Power Architecture**:
-  - Dual-input safe power path: External **5V DC IN** via `B+`/`B-` screw/solder terminals OR **USB-C 5V VBUS**.
-  - Power isolation via dual **SS14 Schottky diodes** (D1, D2).
-  - Overcurrent protection on battery input via **0603L075/12AR PTC resettable fuse** (U7, 750mA hold).
-  - Regulated 3.3V system rail powered by an **AMS1117-3.3 LDO** (U4).
-  - *Note: Board logic operates at 5V logic input only; motor/ESC power is decoupled and handled off-board.*
-- **Expansion & Breakouts**:
-  - Dedicated 4-pin I2C external expansion header (`3V3`, `SDA`, `SCL`, `GND`).
-  - Standard 2.54mm pitch headers for motor PWM signals and battery voltage monitoring.
+- **Microcontroller**: Espressif **ESP32-WROOM-32E-H4** (dual-core 240 MHz, Wi-Fi & Bluetooth, onboard antenna).
+- **IMU**: STMicroelectronics **LSM6DS3TR-C** 6-axis gyro + accelerometer.
+  - I2C address `0x6A` (SA0 tied to GND), CS tied to 3V3 to select I2C mode.
+  - INT1 → `IO19`, INT2 → `IO23`.
+- **Barometer**: Bosch **BMP388** (Tokmas C54582187).
+  - Shared I2C bus, address `0x76` (SDO tied to GND).
+- **USB-UART**: WCH **CH340E** over a **USB-C** receptacle.
+  - 5 V ↔ 3.3 V level shifting: **2N7002** (Q1) on ESP TX → CH340E RX, **B0520W** Schottky (U3) on CH340E TX → ESP RX.
+  - 5.1 kΩ CC pulldowns (R2, R3) so USB-C hosts supply 5 V.
+  - ⚠️ The CH340E has no DTR/RTS pins, so there is **no auto-reset**. Flashing needs the BOOT/RESET button sequence (see [firmware/README.md](firmware/README.md#flashing)).
+- **Power**:
+  - 5 V from USB-C, or external **5 V** on the `B+` / `B-` pads through a **0603L075/12AR** PTC fuse (U7, 750 mA hold). USB-C VBUS enters through two **SS14** Schottky diodes (D1, D2).
+  - 3.3 V rail from an **AMS1117-3.3** LDO (U4).
+  - 🔴 **5 V only on `B+`.** Do not connect a 2S/3S LiPo directly. Motors/ESCs are powered off-board.
+- **Expansion**:
+  - 4-pin I2C header (`3V3`, `SDA`, `SCL`, `GND`).
+  - 2.54 mm headers for motor signals, battery/current sense and spare GPIOs.
 
 ---
 
 ## 📌 Pinout & Hardware Mapping
 
-### 1. Motor Outputs (PWM / DShot / OneShot)
-| Signal / Function | ESP32 GPIO | Header Pin Label | Description |
+The same table lives in code as [`firmware/bringup/pins.h`](firmware/bringup/pins.h). PCB net names are `U2_<module pin>` (e.g. `U2_33` = module pin 33 = GPIO21).
+
+### Motor outputs (PWM / DShot / OneShot)
+| Function | ESP32 GPIO | Module pin | Description |
 | :--- | :--- | :--- | :--- |
-| Motor 1 PWM | `IO25` | `25` | ESC Signal Output 1 |
-| Motor 2 PWM | `IO26` | `26` | ESC Signal Output 2 |
-| Motor 3 PWM | `IO27` | `27` | ESC Signal Output 3 |
-| Motor 4 PWM | `IO32` | `32` | ESC Signal Output 4 |
+| Motor 1 | `IO25` | 10 | ESC signal 1 |
+| Motor 2 | `IO26` | 11 | ESC signal 2 |
+| Motor 3 | `IO27` | 12 | ESC signal 3 |
+| Motor 4 | `IO32` | 8  | ESC signal 4 |
 
-### 2. Sensor Bus (I2C)
-| Line | ESP32 GPIO | Pull-Up Resistor | Connected Peripherals |
+### Sensor bus (I2C) and IMU interrupts
+| Line | ESP32 GPIO | Module pin | Notes |
 | :--- | :--- | :--- | :--- |
-| **SDA** | `IO21` | 4.7kΩ (`R7` to 3.3V) | LSM6DS3TR-C, BMP388, External Header |
-| **SCL** | `IO22` | 4.7kΩ (`R6` to 3.3V) | LSM6DS3TR-C, BMP388, External Header |
-| **IMU INT1** | `IO19` | — | LSM6DS3TR-C Data-Ready / Motion Interrupt |
-| **IMU INT2** | `IO23` | — | LSM6DS3TR-C Secondary Interrupt |
+| **SDA** | `IO21` | 33 | 4.7 kΩ pull-up to 3V3; LSM6DS3TR-C, BMP388, external header |
+| **SCL** | `IO22` | 36 | 4.7 kΩ pull-up to 3V3; LSM6DS3TR-C, BMP388, external header |
+| **IMU INT1** | `IO19` | 31 | LSM6DS3TR-C INT1 |
+| **IMU INT2** | `IO23` | 37 | LSM6DS3TR-C INT2 |
 
-### 3. Voltage Sensing & Analog Inputs
-| Signal / Function | ESP32 GPIO | Type | Description |
+### Analog inputs (header only, external divider required)
+| Function | ESP32 GPIO | Module pin | Type |
 | :--- | :--- | :--- | :--- |
-| **BATT_SENSE** | `IO34` | Input-only (ADC1) | External battery voltage divider input |
-| **CURR_SENSE** / AUX | `IO35` | Input-only (ADC1) | Current sensor or secondary analog sense |
+| **BATT_SENSE** | `IO34` | 6 | Input-only, ADC1 |
+| **CURR_SENSE / AUX** | `IO35` | 7 | Input-only, ADC1 |
 
-*Note: Strapping pins (`IO0`, `IO2`, `IO12`, `IO15`) have been carefully isolated from conflicting external breakout loads to ensure reliable boot behavior.*
+### Spare GPIO headers
+`IO36`, `IO39` (input-only), `IO33`, `IO18`, `IO17`, `IO16`, `IO14`, `IO13`, `IO4`.
+Strapping pins `IO2`, `IO12`, `IO15` and `IO5` are left unconnected so they can't disturb boot.
 
-### 4. Buttons & Controls
-- **RESET / EN**: Tactile switch (`KEY1`) tied to `EN` with a 10kΩ pull-up (`R1`) and a 1µF RC delay capacitor (`C2`).
-- **BOOT / PROG**: Tactile switch (`KEY2`) tied to `IO0` with a 4.7kΩ pull-up (`R5`) and a 0.1µF capacitor (`C6`).
+### Buttons
+- **RESET / EN**: `KEY1` to GND, 10 kΩ pull-up (R1), 1 µF delay capacitor (C2).
+- **BOOT**: `KEY2` on `IO0`, 4.7 kΩ pull-up (R5), 0.1 µF capacitor (C6).
 
 ---
 
-## 🛠️ Board Specifications & Stackup
+## 💾 Firmware
 
-- **Dimensions**: 45.2 mm × 58.0 mm (Revision 1 Dev Board format).
-- **PCB Layers**: 2-Layer FR-4 (1.6 mm thickness, 1 oz copper).
-- **Component Count**: 55 components | 141 verified functional pins.
-- **Design Rule Check (DRC)**:
-  - Minimum clearance: 0.2 mm / ~8 mil.
-  - Standard JLCPCB fabrication constraints.
+Everything is in [`firmware/`](firmware/):
 
----
+| File | Purpose |
+| :--- | :--- |
+| [`firmware/bringup/bringup.ino`](firmware/bringup/bringup.ino) | Sensor bring-up sketch: I2C scan, WHO_AM_I / chip-ID checks, IMU + barometer stream, IMU interrupt-pin check |
+| [`firmware/bringup/pins.h`](firmware/bringup/pins.h) | GPIO and I2C-address definitions matching the schematic |
+| [`firmware/platformio.ini`](firmware/platformio.ini) | Pinned toolchain + libraries for PlatformIO |
+| [`firmware/README.md`](firmware/README.md) | Setup, flashing procedure, expected serial output |
 
-## ⚠️ Pre-Fabrication Checklist & Revision Notes
+**Toolchain:** Arduino-ESP32 core 2.0.17 (board: *ESP32 Dev Module*) · Adafruit LSM6DS 4.7.4 · Adafruit BMP3XX 2.1.6 · Adafruit Unified Sensor · Adafruit BusIO.
 
-Before sending Revision 1.0 to JLCPCB assembly, the following layout refinements are tracked:
-
-- [ ] **Power Trace Widening**: Increase trace widths for primary supply lines (`VBUS`, `+3.3V`, `+5V_1`, `GND`) to ≥ 0.4 mm – 0.5 mm to prevent ESP32 RF transmit brownouts (peak currents reach ~350–500 mA).
-- [ ] **Solid Ground Pour (Copper Area)**: Add top and bottom copper fill zones assigned to `GND` (clearance: 0.3 mm / ~12 mil) to minimize RF ground bounce and motor EMI.
-- [ ] **Via Standardization**: Adjust micro-vias to JLCPCB recommended standards (Drill diameter: ≥ 0.3 mm, Pad diameter: ≥ 0.6 mm).
-- [ ] **Silkscreen Touch-ups**:
-  - Clarify `B+` terminal polarity label as **"5V IN"** (protects against accidental direct 2S/3S LiPo connection).
-  - Add orientation markings/axes ($X, Y, Z$) for the IMU.
-- [ ] **LDO Consideration (Rev 1.1)**: AMS1117-3.3 dropout voltage is ~1.1V. While working with 5V external buck input, it is tight when powered strictly from weak USB ports (~4.6V). Future iterations may drop in an ultra-low-dropout regulator (e.g., AP2112K-3.3).
+**Compatible firmware to build on later:** Arduino-ESP32 / ESP-IDF directly, or open-source ESP32 flight stacks such as [esp-drone](https://github.com/espressif/esp-drone) (Espressif's official ESP32 quadcopter firmware). A custom target/pin file would be needed for this board.
 
 ---
 
-## 🚀 Getting Started & Software Support
+## 🛠️ Board Specifications
 
-This flight controller is compatible with custom firmware written in C++/ESP-IDF, Arduino, or open-source flight stacks:
+- **Layers**: 2-layer FR-4, 1.6 mm, 1 oz copper (JLCPCB standard).
+- **Footprints**: 55.
+- **Default design rules** (from the PCB file): 10 mil tracks, 6 mil clearance, vias 0.62 mm pad / 0.31 mm drill.
+- **Manufacturing files**: [`gerbers/`](gerbers/), [`bom/`](bom/), [`cpl/`](cpl/) (JLCPCB-formatted), source in [`schematics/`](schematics/) and [`pcb design/`](pcb%20design/).
 
-- **ESP-IDF / Arduino ESP32**: Full access to dual cores (Core 0: Wi-Fi/Telemetry & Logging; Core 1: High-speed PID stabilization loop).
-- **Sensor Drivers**:
-  - IMU: Use the `LSM6DS3` / `Adafruit_LSM6DS3` library or raw fast I2C register access (400 kHz).
-  - Barometer: `Adafruit_BMP3XX` library.
-- **Telemetry**: Onboard Wi-Fi and Bluetooth allow for UDP/MAVLink telemetry transmission or web-based PID tuning.
+---
+
+## ⚠️ Known Limitations & Rev 1.1 Plans
+
+This is a first-time design and I'd rather list the weak spots than hide them:
+
+- **Power traces are thin** (10 mil / ~0.25 mm on `VBUS`, `+3.3V`, `+5V_1`). Plan: widen to 0.4–0.5 mm to avoid ESP32 Wi-Fi transmit brownouts (peaks around 350–500 mA).
+- **No copper pour yet.** Plan: GND pours on top and bottom to cut RF ground bounce and motor noise.
+- **AMS1117-3.3 dropout (~1.1 V)** is tight on weak USB ports (~4.6 V after the Schottky). Plan: AP2112K-3.3 or similar low-dropout part.
+- **No auto-reset** (CH340E has no DTR/RTS). Plan: switch to a CH340C/CP2102 with the usual two-transistor auto-reset circuit.
+- **Silkscreen**: relabel `B+` as **"5V IN"** and add IMU axis markings.
+- **Don't power from USB and `B+` at the same time** until the power path is tested on real hardware.
+
+---
+
+## 🤖 AI Assistance
+
+Parts of the README, BOM/CPL formatting and the firmware were drafted with help from AI tools (Gemini and Claude) and then reviewed against the schematic and PCB files. The design itself, part selection and wiring are mine.
 
 ---
 
 ## 📄 License
 
-Open-source hardware released under the [CERN Open Hardware Licence v2 - Permissive](https://ohwr.org/cernohl)
+Open-source hardware released under the [CERN Open Hardware Licence v2 - Permissive](https://ohwr.org/cernohl). See [`LICENSE`](LICENSE).
