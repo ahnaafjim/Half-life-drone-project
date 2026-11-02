@@ -10,7 +10,7 @@
 
 | Week | Tier | Hours logged | Entries |
 | --- | --- | --- | --- |
-| Week 1 | Tier 2 | 15.83h | 7 |
+| Week 1 | Tier 2 | 14.83h | 7 |
 
 ## Contents
 
@@ -90,7 +90,7 @@ Work session
 
 ### 2026-11-02: I used Gemini to basically make a sort of a idea on what things I should upload so that my project has all the necessary things.
 
-**2h**
+**1h**
 
 I used Gemini to basically make a sort of a idea on what things I should upload so that my project has all the necessary things.
 
