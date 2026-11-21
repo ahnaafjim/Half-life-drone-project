@@ -106,8 +106,8 @@ This is a first-time design and I'd rather list the weak spots than hide them:
 - **No copper pour yet.** Plan: GND pours on top and bottom to cut RF ground bounce and motor noise.
 - **AMS1117-3.3 dropout (~1.1 V)** is tight on weak USB ports (~4.6 V after the Schottky). Plan: AP2112K-3.3 or similar low-dropout part.
 - **No auto-reset** (CH340E has no DTR/RTS). Plan: switch to a CH340C/CP2102 with the usual two-transistor auto-reset circuit.
-- **Silkscreen**: relabel `B+` as **"5V IN"** and add IMU axis markings.
-- **Don't power from USB and `B+` at the same time** until the power path is tested on real hardware.
+- **Silkscreen**: add IMU axis markings.
+- **Don't power from USB and `+5V` at the same time** until the power path is tested on real hardware.
 
 ---
 
